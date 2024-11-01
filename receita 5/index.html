@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="estilo.css">
+        <title>Receita 5 - PWEB</title>
+    </head>
+    <body>
+        <div id="meuAmor"></div>
+        <br><br>
+        <div id="containerBotoes">
+            <a href="#" id="botaoCarregar" class="botao">Carregar Times</a>
+            <a href="#" id="botaoOrdenar" class="botao">Ordenar Times</a>
+            <a href="#" id="botaoEmbaralhar" class="botao">Embaralhar Times</a>
+        </div>
+    </body>
+    <script>
+        let times = ["Flamengo", "Botafogo", "Madureira", "Criciúma", "Fluminense"];
+
+        const transformar = (time) => {
+            return `<div class="time">${time}</div>`;
+        }
+
+        const carregarDiv = (times) => {
+            const div = document.getElementById("meuAmor");
+            const timesHtml = times.map(time => transformar(time));
+            div.innerHTML = `${timesHtml.join("\n")}`;
+        };
+
+        const shuffle = (array) => {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+        
+        const botaoCarregar = document.getElementById("botaoCarregar");
+        const botaoOrdenar = document.getElementById("botaoOrdenar");
+        const botaoEmbaralhar = document.getElementById("botaoEmbaralhar");
+
+        botaoCarregar.addEventListener("click", () => carregarDiv(times));
+
+        botaoOrdenar.addEventListener("click", () => {
+            const ordenarTimes = [...times].sort();
+            carregarDiv(ordenarTimes);
+        });
+
+        botaoEmbaralhar.addEventListener("click", () => {
+            const embaralharTimes = [...times];
+            shuffle(embaralharTimes);
+            carregarDiv(embaralharTimes);
+        });
+    </script>
+</html>
