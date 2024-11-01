@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta charset="UTF-8">
+      <link rel="stylesheet" href="estilo.css">
+      <title>Receita 4 - PWEB</title>
+   </head>
+   <body>
+      <div id="botoes">
+         <a href="#" id="linkCarregar" class="botao">Carregar cervejas</a>
+         <a href="#" id="linkOrdenar" class="botao">Ordenar cervejas</a>
+         <a href="#" id="linkEmbaralhar" class="botao">Embaralhar cervejas</a>
+      </div>
+      <div id="meuAmor"></div>
+   </body>
+
+   <script>
+      let cervejas = ["Brahma", "Skol", "Amstel", "Itaipava", "Budweiser"];
+
+      function transformar(item) {
+         return `<tr><td class="cerveja">${item}</td></tr>`;
+      }
+
+      function carregarDiv() {
+         let div = document.getElementById("meuAmor");
+         let cervejasHtml = cervejas.map(transformar);
+         div.innerHTML = `
+            <table>
+               <thead>
+                  <tr><th>Bebidas</th></tr>
+               </thead>
+               <tbody>
+                  ${cervejasHtml.join("\n")}
+               </tbody>
+            </table>`;
+      }
+
+      function shuffle(array) {
+         for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+         }
+      }
+
+      document.getElementById("linkCarregar").addEventListener("click", (e) => {
+         e.preventDefault(); 
+         carregarDiv();
+      });
+
+      document.getElementById("linkOrdenar").addEventListener("click", (e) => {
+         e.preventDefault(); 
+         cervejas.sort();
+         carregarDiv();
+      });
+
+      document.getElementById("linkEmbaralhar").addEventListener("click", (e) => {
+         e.preventDefault(); 
+         shuffle(cervejas);
+         carregarDiv();
+      });
+   </script>
+</html>
