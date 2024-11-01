@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-br">   
+    <head>
+        <meta charset="UTF-8">
+        <title>Receita 6 - PWEB</title>
+        <link rel="stylesheet" href="estilo.css">      
+    </head>
+    <body>
+        <div><button id="botaoCarregar">Adicionar na tabela</button></div>
+        <table>
+            <thead id="thead">
+                <tr>
+                    <th>Nome</th>
+                    <th>Núm. Habitantes</th>
+                    <th>Capital</th>
+                    <th>Moeda</th>
+                </tr>
+            </thead>
+            <tbody id="paisesTabela"></tbody>
+        </table>
+
+        <script>
+            let paises = [
+                {
+                    "name": "Brasil",
+                    "population": "213 milhões",
+                    "capital": "Brasília",
+                    "coin": "Real"
+                },
+                {
+                    "name": "Estados Unidos",
+                    "population": "331 milhões",
+                    "capital": "Washington, D.C.",
+                    "coin": "Dólar"
+                },
+                {
+                    "name": "Reino Unido",
+                    "population": "67 milhões",
+                    "capital": "Londres",
+                    "coin": "Libra Esterlina"
+                },
+                {
+                    "name": "Espanha",
+                    "population": "47 milhões",
+                    "capital": "Madri",
+                    "coin": "Euro"
+                },
+                {
+                    "name": "Japão",
+                    "population": "126 milhões",
+                    "capital": "Tóquio",
+                    "coin": "Iene"
+                },
+                {
+                    "name": "Canadá",
+                    "population": "38 milhões",
+                    "capital": "Ottawa",
+                    "coin": "Dólar Canadense"
+                },
+                {
+                    "name": "Índia",
+                    "population": "1.4 bilhões",
+                    "capital": "Nova Délhi",
+                    "coin": "Rúpia"
+                },
+                {
+                    "name": "China",
+                    "population": "1.4 bilhões",
+                    "capital": "Pequim",
+                    "coin": "Renminbi (Yuan)"
+                },
+                {
+                    "name": "México",
+                    "population": "126 milhões",
+                    "capital": "Cidade do México",
+                    "coin": "Peso Mexicano"
+                }
+            ];
+
+            const carregarDiv = (ps, targetId = "paisesTabela", lista = ["Nome", "Núm. Habitantes", "Capital", "Moeda"], prop = ["name", "population", "capital", "coin"]) => {
+                const tableBody = document.getElementById(targetId); 
+                const thead = document.getElementById("thead"); 
+                thead.innerHTML = lista.map(header => `<th>${header}</th>`).join("");
+
+                const itensHtml = ps.map(item => { 
+                    const itemProp = prop.map(obj => `<td>${item[obj]}</td>`).join("");
+                    return `<tr>${itemProp}</tr>`;
+                });
+
+                tableBody.innerHTML = `${itensHtml.join("\n")}`;
+            };
+
+            const botao = document.getElementById("botaoCarregar");
+            botao.addEventListener("click", () => carregarDiv(paises));
+        </script>
+    </body>   
+</html>
