@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>   
+   <head>
+      <meta charset="UTF-8">
+      <title>Receita 3 - PWEB</title>
+      <link rel="stylesheet" href="estilo.css">      
+   </head>
+   <body>
+        <div id="meuAmor"></div> 
+        <div id="meuAmor1">
+            <button id="botaoCarregar">
+                Clique Aqui
+            </button>
+        </div>              
+   </body>   
+   <script>
+        let estado = true;
+
+        function carregarDiv(){
+            let div = document.getElementById("meuAmor");
+            if(!estado) {
+                div.style.opacity = '0'; 
+                setTimeout(() => {
+                    div.innerHTML = ''; 
+                }, 1000); 
+            }
+            else {
+                div.innerHTML = `
+                    <h1>Lista de Bebidas</h1>
+                    <ul>
+                        <li>Brahma</li>
+                        <li>Skol</li>
+                        <li>Itaipava</li>
+                        <li>Local</li>
+                    </ul>
+                `;                    
+                div.style.opacity = '0'; 
+                setTimeout(() => {
+                    div.style.opacity = '0.7'; 
+                }, 10); 
+            }
+            estado = !estado;
+        }
+
+        let botao = document.getElementById("botaoCarregar");
+        botao.addEventListener("click", carregarDiv);                 
+   </script>
+</html>
