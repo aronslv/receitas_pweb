@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Receita 8 - PWEB</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="estilo.css" rel="stylesheet">
+</head>
+<body>
+
+    <div class="container my-5">
+        <h1>Cervejas e Nomes</h1>
+        
+        <div class="d-flex justify-content-center gap-3 mb-5">
+            <button id="botaoCarregarCervejas" class="btn btn-primary btn-lg">
+                Carregar Cervejas
+            </button>
+            <button id="botaoCarregarNomes" class="btn btn-primary btn-lg">
+                Carregar Nomes
+            </button>
+        </div>
+
+        <div id="cervejasDiv" class="bg-white p-4 rounded shadow mb-5"></div>
+        <div id="nomesDiv" class="bg-white p-4 rounded shadow"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script type="module">
+        import { criarTabela } from './tabela.js';
+
+        function carregarCervejas() {
+            fetch("https://random-data-api.com/api/v2/beers?size=3")
+                .then(response => response.json())
+                .then(cervejas => {
+                    const columns = ["Nome", "Estilo", "Fermento", "Teor Alcoólico", "IBU"];
+                    const properties = ["name", "style", "yeast", "alcohol", "ibu"];
+                    
+                    const tabelaHtml = criarTabela(cervejas, columns, properties);
+                    document.getElementById("cervejasDiv").innerHTML = tabelaHtml;
+                })
+                .catch(error => {
+                    document.getElementById("cervejasDiv").innerHTML = "<p class='text-danger'>Erro ao carregar dados de cervejas.</p>";
+                    console.error("Erro ao carregar cervejas:", error);
+                });
+        }
+
+        function carregarNomes() {
+            fetch("https://random-data-api.com/api/name/random_name?size=3")
+                .then(response => response.json())
+                .then(nomes => {
+                    const columns = ["Nome Completo"];
+                    const properties = ["name"];
+                    
+                    const tabelaHtml = criarTabela(nomes, columns, properties);
+                    document.getElementById("nomesDiv").innerHTML = tabelaHtml;
+                })
+                .catch(error => {
+                    document.getElementById("nomesDiv").innerHTML = "<p class='text-danger'>Erro ao carregar dados de nomes.</p>";
+                    console.error("Erro ao carregar nomes:", error);
+                });
+        }
+
+        document.getElementById("botaoCarregarCervejas").addEventListener("click", carregarCervejas);
+        document.getElementById("botaoCarregarNomes").addEventListener("click", carregarNomes);
+    </script>
+</body>
+</html>
