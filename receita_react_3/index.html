@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>React - Receita 3</title>
+    <style>
+      table {
+        border-collapse: collapse;
+        width: 80%;
+        margin: 20px auto;
+        font-family: Arial, sans-serif;
+      }
+      th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: center;
+      }
+      th {
+        background-color: #4CAF50;
+        color: white;
+      }
+      tr:nth-child(even) {
+        background-color: #f2f2f2;
+      }
+      tr:hover {
+        background-color: #ddd;
+      }
+      button {
+        display: block;
+        margin: 20px auto;
+        padding: 10px 20px;
+        font-size: 16px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+      }
+      button:hover {
+        background-color: #45a049;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js" crossorigin></script>
+    <script type="text/babel">
+      class Botao extends React.Component {
+        render() {
+          return (
+            <button style={this.props.style} onClick={this.props.onClick}>
+              {this.props.texto}
+            </button>
+          );
+        }
+      }
+
+      class Mensagem extends React.Component {
+        render() {
+          return <p style={{ textAlign: "center" }}>{this.props.texto}</p>;
+        }
+      }
+
+      class Tabela extends React.Component {
+        constructor(props) {
+          super(props);
+          this.state = {
+            dados: [],
+            tabelaVisivel: false,
+          };
+        }
+
+        carregarDados = () => {
+          const dados =
+            this.props.tipo === "bebidas"
+              ? [
+                  { col1: "Heineken", col2: 23, col3: "Cerveja" },
+                  { col1: "Jack Daniel's", col2: "-", col3: "Whisky" },
+                  { col1: "Grey Goose", col2: "-", col3: "Vodka" },
+                  { col1: "Guinness", col2: 45, col3: "Cerveja" },
+                ]
+              : [
+                  { col1: "Flamengo", col2: 1895 },
+                  { col1: "Vasco", col2: 1898 },
+                  { col1: "Corinthians", col2: 1910 },
+                  { col1: "São Paulo", col2: 1930 },
+                ];
+
+          this.setState((prevState) => ({
+            dados: dados,
+            tabelaVisivel: !prevState.tabelaVisivel,
+          }));
+        };
+
+        render() {
+          const headers =
+            this.props.tipo === "bebidas"
+              ? ["Nome da Bebida", "IBU", "Tipo"]
+              : ["Nome do Time", "Ano de Fundação"];
+
+          return (
+            <div>
+              <h1 style={{ textAlign: "center" }}>{this.props.titulo}</h1>
+              <Botao
+                texto={
+                  this.state.tabelaVisivel
+                    ? `Ocultar ${this.props.titulo}`
+                    : `Carregar ${this.props.titulo}`
+                }
+                onClick={this.carregarDados}
+              />
+              {this.state.tabelaVisivel && (
+                <table>
+                  <thead>
+                    <tr>
+                      {headers.map((header, index) => (
+                        <th key={index}>{header}</th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {this.state.dados.map((item, index) => (
+                      <tr key={index}>
+                        <td>{item.col1}</td>
+                        <td>{item.col2}</td>
+                        {item.col3 && <td>{item.col3}</td>}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              )}
+              <Mensagem
+                texto={
+                  this.state.tabelaVisivel
+                    ? `${this.props.titulo} carregada com sucesso!`
+                    : `Clique no botão para carregar a ${this.props.titulo}.`
+                }
+              />
+            </div>
+          );
+        }
+      }
+
+      class App extends React.Component {
+        render() {
+          return (
+            <div>
+              <Tabela titulo="Tabela de Cana" tipo="bebidas" />
+              <Tabela titulo="Tabela de Times" tipo="times" />
+            </div>
+          );
+        }
+      }
+
+      ReactDOM.render(<App />, document.getElementById("app"));
+    </script>
+  </body>
+</html>
